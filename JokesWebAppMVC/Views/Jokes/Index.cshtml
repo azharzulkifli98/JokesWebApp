@@ -4,7 +4,7 @@
     ViewData["Title"] = "Full Joke List";
 }
 
-<h1>Index</h1>
+<h1>Joke List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.JokeQuestion)
             </td>
             <td>
-                <span title=@Html.DisplayFor(modelItem => item.JokeAnswer) >hover</span>
+                @Html.DisplayFor(modelItem => item.JokeAnswer)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
