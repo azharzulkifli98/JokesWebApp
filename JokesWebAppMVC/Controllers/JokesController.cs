@@ -35,8 +35,8 @@ namespace JokesWebAppMVC.Controllers
         // POST: Jokes/SearchResults
         public async Task<IActionResult> SearchResults(String SearchPhrase)
         {
-            return View("Index", await _context.Joke.Where( j => j.JokeQuestion.Contains
-            (SearchPhrase) ).ToListAsync() );
+            return View("Index", await _context.Joke.Where( 
+            j => j.JokeQuestion.Contains(SearchPhrase) ).ToListAsync() );
         }
 
         // GET: Jokes/Details/5
@@ -61,6 +61,11 @@ namespace JokesWebAppMVC.Controllers
         [Authorize]
         public IActionResult Create()
         {
+            List<SelectListItem> genrelist = new List<SelectListItem>() { 
+                new SelectListItem { Value="1", Text="Puns" },
+                new SelectListItem { Value="2", Text="Other" }
+            };
+            ViewBag.ListofCategory = genrelist;
             return View();
         }
 
@@ -70,7 +75,7 @@ namespace JokesWebAppMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer")] Joke joke)
+        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer,Genre")] Joke joke)
         {
             if (ModelState.IsValid)
             {

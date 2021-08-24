@@ -11,9 +11,15 @@ namespace JokesWebAppMVC.Models
         public string JokeQuestion { get; set; }
         public string JokeAnswer { get; set; }
 
+        public string Author { get; set; }
+
+        // want them to fall under one of five groups: pun, meta, sarcasm, 
+        public string Genre { get; set; }
+        public string Date { get; set; }
+
         public Joke()
         {
-
+            Date = DateTime.Today.ToString("d");
         }
     }
 }
