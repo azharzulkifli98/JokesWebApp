@@ -9,6 +9,7 @@ using JokesWebAppMVC.Data;
 using JokesWebAppMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace JokesWebAppMVC.Controllers
 {
     public class JokesController : Controller
@@ -62,8 +63,11 @@ namespace JokesWebAppMVC.Controllers
         public IActionResult Create()
         {
             List<SelectListItem> genrelist = new List<SelectListItem>() { 
-                new SelectListItem { Value="1", Text="Puns" },
-                new SelectListItem { Value="2", Text="Other" }
+                new SelectListItem { Value="General", Text="General" },
+                new SelectListItem { Value="Wordplay", Text="Wordplay" },
+                new SelectListItem { Value="Riddle", Text="Riddle" },
+                new SelectListItem { Value="Sarcasm", Text="Sarcasm" },
+                new SelectListItem { Value="Other", Text="Other" }
             };
             ViewBag.ListofCategory = genrelist;
             return View();
@@ -75,8 +79,9 @@ namespace JokesWebAppMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer,Genre")] Joke joke)
+        public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer,Genre,Author")] Joke joke)
         {
+            joke.Author = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 _context.Add(joke);
