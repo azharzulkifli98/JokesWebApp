@@ -1,9 +1,39 @@
-﻿@{
+﻿@model IEnumerable<JokesWebAppMVC.Models.Joke>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome!</h1>
     <p>Check out these awesome jokes or add your own.</p>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Recent Jokes</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="accordion-toggle" data-toggle="collapse" data-target="#AA_@(item.Id)">
+                    <button class="btn btn-outline-info" type="button">
+                        @Html.DisplayFor(modelItem => item.JokeQuestion)
+                    </button>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td id="AA_@(item.Id)" class="accordion-body collapse">
+                    @Html.DisplayFor(modelItem => item.JokeAnswer)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

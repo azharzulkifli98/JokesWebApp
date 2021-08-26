@@ -30,14 +30,23 @@ namespace JokesWebAppMVC.Controllers
         // GET: Jokes/Search
         public async Task<IActionResult> Search()
         {
+            List<SelectListItem> genrelist = new List<SelectListItem>() {
+                new SelectListItem { Value="r", Text="General" },
+                new SelectListItem { Value="Wordplay", Text="Wordplay" },
+                new SelectListItem { Value="Riddle", Text="Riddle" },
+                new SelectListItem { Value="Sarcasm", Text="Sarcasm" },
+                new SelectListItem { Value="Other", Text="Other" }
+            };
+            ViewBag.ListofCategory = genrelist;
             return View();
         }
 
         // POST: Jokes/SearchResults
-        public async Task<IActionResult> SearchResults(String SearchPhrase)
+        public async Task<IActionResult> SearchResults(String SearchPhrase, String Genre)
         {
             return View("Index", await _context.Joke.Where( 
-            j => j.JokeQuestion.Contains(SearchPhrase) ).ToListAsync() );
+            j => j.JokeQuestion.Contains(SearchPhrase) 
+            &&   j.Genre.Contains(Genre) ).ToListAsync() );
         }
 
         // GET: Jokes/Details/5
@@ -105,6 +114,15 @@ namespace JokesWebAppMVC.Controllers
             {
                 return NotFound();
             }
+
+            List<SelectListItem> genrelist = new List<SelectListItem>() {
+                new SelectListItem { Value="General", Text="General" },
+                new SelectListItem { Value="Wordplay", Text="Wordplay" },
+                new SelectListItem { Value="Riddle", Text="Riddle" },
+                new SelectListItem { Value="Sarcasm", Text="Sarcasm" },
+                new SelectListItem { Value="Other", Text="Other" }
+            };
+            ViewBag.ListofCategory = genrelist;
             return View(joke);
         }
 
@@ -114,7 +132,7 @@ namespace JokesWebAppMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,JokeQuestion,JokeAnswer")] Joke joke)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,JokeQuestion,JokeAnswer,Genre")] Joke joke)
         {
             if (id != joke.Id)
             {
