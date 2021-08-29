@@ -101,7 +101,7 @@ namespace JokesWebAppMVC.Controllers
         }
 
         // GET: Jokes/Edit/5
-        [Authorize]
+        [Authorize(Roles = "") ]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

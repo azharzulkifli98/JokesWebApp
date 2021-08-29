@@ -20,7 +20,7 @@ namespace JokesWebAppMVC.Models
 
         public string Author { get; set; }
 
-        // want them to fall under one of five groups: pun, meta, sarcasm, 
+        // want them to fall under one of five groups: pun, sarcasm, 
         public string Genre { get; set; }
         public string Date { get; set; }
 
