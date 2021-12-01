@@ -24,6 +24,9 @@ namespace JokesWebAppMVC.Models
         public string Genre { get; set; }
         public string Date { get; set; }
 
+        // user ID for security feature
+        public string OwnerID { get; set; }
+
         public Joke()
         {
             Date = DateTime.Today.ToString("d");
