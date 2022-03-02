@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JokesWebAppMVC.Data;
 using JokesWebAppMVC.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace JokesWebAppMVC.Controllers
@@ -15,10 +16,12 @@ namespace JokesWebAppMVC.Controllers
     public class JokesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public JokesController(ApplicationDbContext context)
+        public JokesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Jokes
@@ -91,6 +94,18 @@ namespace JokesWebAppMVC.Controllers
         public async Task<IActionResult> Create([Bind("Id,JokeQuestion,JokeAnswer,Genre,Author")] Joke joke)
         {
             joke.Author = User.Identity.Name;
+            //joke.OwnerID = UserManager<User>.GetUserId();
+            //joke.OwnerID = await _userManager.GetUserIdAsync(User);
+
+            /*Contact.OwnerID = UserManager.GetUserId(User);
+
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(
+                                                        User, Contact,
+                                                        ContactOperations.Create);
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }*/
             if (ModelState.IsValid)
             {
                 _context.Add(joke);
@@ -101,7 +116,7 @@ namespace JokesWebAppMVC.Controllers
         }
 
         // GET: Jokes/Edit/5
-        [Authorize(Roles = "") ]
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

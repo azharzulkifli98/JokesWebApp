@@ -34,8 +34,8 @@ namespace JokesWebAppMVC.Authorization
             {
                 return Task.CompletedTask;
             }
-
-            if (resource.OwnerID == _userManager.GetUserId(context.User))
+            // old was resource.OwnerID == _userManager.GetUserId(context.User)
+            if (resource.Author == context.User.Identity.Name)
             {
                 context.Succeed(requirement);
             }
